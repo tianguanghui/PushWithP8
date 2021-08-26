@@ -30,7 +30,36 @@ class MainViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
+    
+    @IBAction func setToDefaultAction(_ sender: Any) {
+        teamIDTextField.stringValue = "SQYY7F42U5"
+        keyIDTextField.stringValue = "DMR5B9WQAT"
+        p8KeyTextField.stringValue = """
+            -----BEGIN PRIVATE KEY-----
+            MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgb0jNPbqLE4Ex/XLe
+            nmBHTPvZWX9sKWV3Ero7JBRwQxugCgYIKoZIzj0DAQehRANCAAQaeMGciIZxbKoN
+            07HH24GQdoQvBN25FiX5PJI9GaiSDaqmIU5jjf0VYe7oYc6xFNj+72pGVIhHWox4
+            2SnJ9Oi5
+            -----END PRIVATE KEY-----
+            """
+        bundleIDTextField.stringValue = "com.11bee.xbinsurance"
+        deviceTokenTextField.stringValue = "5a61641b72ada490789850c75abb11b62a6b63db5841a0bea52d3ebb69b47d27"
+        payLoadTextField.stringValue = """
+            {"aps":{"alert":"这是推送标题","body":"这是推送内容，这里的文字长度是有限制的","sound":"default","badge":1}}
+            """
+        envSwitch.state = NSControl.StateValue.off
+    }
+    
+    @IBAction func clearAction(_ sender: Any) {
+        teamIDTextField.stringValue = ""
+        keyIDTextField.stringValue = ""
+        p8KeyTextField.stringValue = ""
+        bundleIDTextField.stringValue = ""
+        deviceTokenTextField.stringValue = ""
+        payLoadTextField.stringValue = ""
+        envSwitch.state = NSControl.StateValue.off
+    }
+    
     @IBAction func sendAction(_ sender: NSButton) {
         
         let TEAM_ID = teamIDTextField.stringValue
