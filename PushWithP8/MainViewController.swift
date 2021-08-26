@@ -48,6 +48,7 @@ class MainViewController: NSViewController {
             {"aps":{"alert":"这是推送标题","body":"这是推送内容，这里的文字长度是有限制的","sound":"default","badge":1}}
             """
         envSwitch.state = NSControl.StateValue.off
+        resultLabel.stringValue = ""
     }
     
     @IBAction func clearAction(_ sender: Any) {
@@ -58,6 +59,7 @@ class MainViewController: NSViewController {
         deviceTokenTextField.stringValue = ""
         payLoadTextField.stringValue = ""
         envSwitch.state = NSControl.StateValue.off
+        resultLabel.stringValue = ""
     }
     
     @IBAction func sendAction(_ sender: NSButton) {
