@@ -72,7 +72,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="通过P8证书发送Apple Push By GreyWolf" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="通过P8证书发送Apple Push" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -274,7 +274,7 @@ nmBHTPvZWX9sKWV3Ero7JBRwPxugCgYIKoZIzj0DBPehRBNCBBPaeMGciIZxbKoN
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="WZy-KQ-pJE"/>
                                                         </constraints>
-                                                        <textFieldCell key="cell" lineBreakMode="charWrapping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" placeholderString="{&quot;aps&quot;:{&quot;alert&quot;:&quot;这是推送标题&quot;,&quot;body&quot;:&quot;这是推送内容，这里的文字长度是有限制的&quot;,&quot;sound&quot;:&quot;default&quot;,&quot;badge&quot;:1}}" drawsBackground="YES" id="tll-fN-S8Z">
+                                                        <textFieldCell key="cell" lineBreakMode="charWrapping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" placeholderString="{&quot;aps&quot;:{&quot;alert&quot;:{&quot;title&quot;:&quot;这是推送标题&quot;,&quot;subtitle&quot;:&quot;这是推送内容，这里的文字长度是有限制的&quot;},&quot;sound&quot;:&quot;default&quot;,&quot;badge&quot;:1}}" drawsBackground="YES" id="tll-fN-S8Z">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -296,7 +296,23 @@ nmBHTPvZWX9sKWV3Ero7JBRwPxugCgYIKoZIzj0DBPehRBNCBBPaeMGciIZxbKoN
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7YY-6M-0De">
                                                         <rect key="frame" x="14" y="8" width="95" height="16"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="正式环境：" id="R85-ua-ic6">
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="当前环境：" id="R85-ua-ic6">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RXU-LY-fWl">
+                                                        <rect key="frame" x="127" y="6" width="453" height="20"/>
+                                                        <textFieldCell key="cell" lineBreakMode="charWrapping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" drawsBackground="YES" usesSingleLineMode="YES" id="R3V-f0-3c5">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cHA-oD-472">
+                                                        <rect key="frame" x="598" y="8" width="58" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="正式环境" id="XfF-3A-wT8">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -304,12 +320,20 @@ nmBHTPvZWX9sKWV3Ero7JBRwPxugCgYIKoZIzj0DBPehRBNCBBPaeMGciIZxbKoN
                                                     </textField>
                                                     <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="dbZ-W7-q3q">
                                                         <rect key="frame" x="660" y="3" width="42" height="25"/>
+                                                        <connections>
+                                                            <action selector="switchEnvAction:" target="xb5-gi-rKG" id="roC-uK-DrI"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="dbZ-W7-q3q" firstAttribute="centerY" secondItem="7YY-6M-0De" secondAttribute="centerY" id="7xb-QT-ELe"/>
+                                                    <constraint firstItem="RXU-LY-fWl" firstAttribute="centerY" secondItem="7YY-6M-0De" secondAttribute="centerY" id="C4x-sj-4aU"/>
                                                     <constraint firstItem="7YY-6M-0De" firstAttribute="top" secondItem="ERL-xH-2DL" secondAttribute="top" constant="8" id="CRq-8r-ZkP"/>
+                                                    <constraint firstItem="cHA-oD-472" firstAttribute="leading" secondItem="RXU-LY-fWl" secondAttribute="trailing" constant="20" id="L6I-jm-7K9"/>
+                                                    <constraint firstItem="dbZ-W7-q3q" firstAttribute="leading" secondItem="cHA-oD-472" secondAttribute="trailing" constant="8" id="ThI-52-8i7"/>
                                                     <constraint firstAttribute="trailing" secondItem="dbZ-W7-q3q" secondAttribute="trailing" constant="20" id="ZJf-cX-TZn"/>
+                                                    <constraint firstItem="cHA-oD-472" firstAttribute="centerY" secondItem="7YY-6M-0De" secondAttribute="centerY" id="mD8-ib-AY9"/>
+                                                    <constraint firstItem="RXU-LY-fWl" firstAttribute="leading" secondItem="7YY-6M-0De" secondAttribute="trailing" constant="20" id="psu-MG-NJB"/>
                                                     <constraint firstItem="7YY-6M-0De" firstAttribute="leading" secondItem="ERL-xH-2DL" secondAttribute="leading" constant="16" id="rV7-z6-QMc"/>
                                                     <constraint firstAttribute="bottom" secondItem="7YY-6M-0De" secondAttribute="bottom" constant="8" id="ysj-RE-r84"/>
                                                 </constraints>
@@ -446,6 +470,7 @@ nmBHTPvZWX9sKWV3Ero7JBRwPxugCgYIKoZIzj0DBPehRBNCBBPaeMGciIZxbKoN
                         <outlet property="bundleIDTextField" destination="gfd-WS-kpT" id="CeG-rU-C0H"/>
                         <outlet property="deviceTokenTextField" destination="51e-Tp-2aH" id="5Ao-5b-MfB"/>
                         <outlet property="envSwitch" destination="dbZ-W7-q3q" id="rA1-tU-t5Y"/>
+                        <outlet property="envTextField" destination="RXU-LY-fWl" id="pL2-gl-ZPk"/>
                         <outlet property="keyIDTextField" destination="Ahn-T9-gL0" id="Vfz-Bb-HJ1"/>
                         <outlet property="p8KeyTextField" destination="YjL-L8-48B" id="bYy-dI-7U5"/>
                         <outlet property="payLoadTextField" destination="2PC-cN-Dvz" id="VsG-fe-M0J"/>

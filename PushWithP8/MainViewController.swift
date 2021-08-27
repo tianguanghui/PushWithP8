@@ -15,19 +15,60 @@ class MainViewController: NSViewController {
     @IBOutlet weak var bundleIDTextField: NSTextField!
     @IBOutlet weak var deviceTokenTextField: NSTextField!
     @IBOutlet weak var payLoadTextField: NSTextField!
+    @IBOutlet weak var envTextField: NSTextField!
     @IBOutlet weak var envSwitch: NSSwitch!
     @IBOutlet weak var resultLabel: NSTextField!
     @IBOutlet weak var sendButton: NSButton!
     
+    let envDevelop = "https://api.development.push.apple.com/3/device/"
+    let envProduction = "https://api.push.apple.com/3/device/"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        teamIDTextField.placeholderString = "请填写开发者的Team ID"
+        keyIDTextField.placeholderString = "请填写开发者的Key ID"
+        p8KeyTextField.placeholderString = """
+            -----BEGIN PRIVATE KEY-----
+            MIGTBgEBMBMGByqGSM49BgEGCCqGSM49BwEHBHkwdwIBBPPgb0jNPbqLE4Ex/XLe
+            nmBHTPvZWX9sKWV3Ero7JBRwPxugCgYIKoZIzj0DBPehRBNCBBPaeMGciIZxbKoN
+            07HH24GPdoPvBN25FiX5PJI9GaiSDaqmIU5jjf0VYe7oYc6xFNj+72pGVIhHWox4
+            2SnJ9Oi5
+            -----END PRIVATE KEY-----
+            """
+        bundleIDTextField.placeholderString = "请填写应用的Bundle ID"
+        deviceTokenTextField.placeholderString = "请填写接收推送的设备的Device Token"
+        payLoadTextField.placeholderString = """
+            {"aps":{"alert":{"title":"这是推送标题","subtitle":"这是推送内容，这里的文字长度是有限制的"},"sound":"default","badge":1}}
+            """
+        envTextField.placeholderString = envDevelop
+        
+        teamIDTextField.stringValue = ""
+        keyIDTextField.stringValue = ""
+        p8KeyTextField.stringValue = ""
+        bundleIDTextField.stringValue = ""
+        deviceTokenTextField.stringValue = ""
+        payLoadTextField.stringValue = ""
+        envTextField.stringValue = ""
         envSwitch.state = NSControl.StateValue.off
+        resultLabel.stringValue = ""
     }
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
+        }
+    }
+    
+    @IBAction func switchEnvAction(_ sender: NSSwitch) {
+        if sender == envSwitch {
+            if envSwitch.state == NSControl.StateValue.off {
+                envTextField.stringValue = ""
+                envTextField.placeholderString = envDevelop
+            } else if envSwitch.state == NSControl.StateValue.on {
+                envTextField.stringValue = ""
+                envTextField.placeholderString = envProduction
+            }
         }
     }
     
@@ -45,8 +86,10 @@ class MainViewController: NSViewController {
         bundleIDTextField.stringValue = "com.11bee.xbinsurance"
         deviceTokenTextField.stringValue = "5a61641b72ada490789850c75abb11b62a6b63db5841a0bea52d3ebb69b47d27"
         payLoadTextField.stringValue = """
-            {"aps":{"alert":"这是推送标题","body":"这是推送内容，这里的文字长度是有限制的","sound":"default","badge":1}}
+            {"aps":{"alert":{"title":"这是推送标题","subtitle":"这是推送内容，这里的文字长度是有限制的"},"sound":"default","badge":1}}
             """
+        envTextField.stringValue = ""
+        envTextField.placeholderString = envDevelop
         envSwitch.state = NSControl.StateValue.off
         resultLabel.stringValue = ""
     }
@@ -58,47 +101,48 @@ class MainViewController: NSViewController {
         bundleIDTextField.stringValue = ""
         deviceTokenTextField.stringValue = ""
         payLoadTextField.stringValue = ""
+        envTextField.stringValue = ""
+        envTextField.placeholderString = envDevelop
         envSwitch.state = NSControl.StateValue.off
         resultLabel.stringValue = ""
     }
     
     @IBAction func sendAction(_ sender: NSButton) {
         
-        let TEAM_ID = teamIDTextField.stringValue
-        let KEY_ID = keyIDTextField.stringValue
-        let P8 = p8KeyTextField.stringValue
-        let BUNDLE_ID = bundleIDTextField.stringValue
-        let DEVICE_TOKEN = deviceTokenTextField.stringValue
-        let PAYLOAD = payLoadTextField.stringValue
+        let kTEAM_ID = teamIDTextField.stringValue
+        let kKEY_ID = keyIDTextField.stringValue
+        let kP8 = p8KeyTextField.stringValue
+        let kBUNDLE_ID = bundleIDTextField.stringValue
+        let kDEVICE_TOKEN = deviceTokenTextField.stringValue
+        let kPAYLOAD = payLoadTextField.stringValue
+        let kURL = !(envTextField.stringValue.isEmpty) ? envTextField.stringValue : ((envSwitch.state == NSControl.StateValue.off) ? envDevelop : envProduction)
         
-        let url = (envSwitch.state == NSControl.StateValue.off) ? "https://api.development.push.apple.com/3/device/" : "https://api.push.apple.com/3/device/"
-        
-        guard !(TEAM_ID.isEmpty) else {
+        guard !(kTEAM_ID.isEmpty) else {
             resultLabel.stringValue = "Team ID 不能为空";
             return
         }
         
-        guard !(KEY_ID.isEmpty) else {
+        guard !(kKEY_ID.isEmpty) else {
             resultLabel.stringValue = "Key ID 不能为空";
             return
         }
         
-        guard !(P8.isEmpty) else {
+        guard !(kP8.isEmpty) else {
             resultLabel.stringValue = "P8证书 不能为空";
             return
         }
         
-        guard !(BUNDLE_ID.isEmpty) else {
+        guard !(kBUNDLE_ID.isEmpty) else {
             resultLabel.stringValue = "Bundle ID 不能为空";
             return
         }
         
-        guard !(DEVICE_TOKEN.isEmpty) else {
+        guard !(kDEVICE_TOKEN.isEmpty) else {
             resultLabel.stringValue = "DeviceToken 不能为空";
             return
         }
         
-        guard !(PAYLOAD.isEmpty) else {
+        guard !(kPAYLOAD.isEmpty) else {
             resultLabel.stringValue = "Payload 不能为空";
             return
         }
@@ -107,14 +151,14 @@ class MainViewController: NSViewController {
             self.resultLabel.stringValue = ""
         }
         
-        let jwt = JWT(keyID: KEY_ID, teamID: TEAM_ID, issueDate: Date(), expireDuration: 60 * 60)
+        let jwt = JWT(keyID: kKEY_ID, teamID: kTEAM_ID, issueDate: Date(), expireDuration: 60 * 60)
         do {
-            let token = try jwt.sign(with: P8)
-            var request = URLRequest(url: URL(string: url + DEVICE_TOKEN)!)
+            let token = try jwt.sign(with: kP8)
+            var request = URLRequest(url: URL(string: kURL + kDEVICE_TOKEN)!)
             request.httpMethod = "POST"
             request.addValue("bearer \(token)", forHTTPHeaderField: "authorization")
-            request.addValue(BUNDLE_ID, forHTTPHeaderField: "apns-topic")
-            request.httpBody = PAYLOAD.data(using: .utf8)
+            request.addValue(kBUNDLE_ID, forHTTPHeaderField: "apns-topic")
+            request.httpBody = kPAYLOAD.data(using: .utf8)
 
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard error == nil else {
