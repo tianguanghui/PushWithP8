@@ -18,3 +18,7 @@ xcodebuild -project PushWithP8.xcodeproj -scheme PushWithP8 -configuration Debug
 ```
 
 本机 Xcode 27.1 已验证 Debug / Release 编译通过。原先 macOS 10.15 的部署目标不在该 Xcode 的支持范围内。
+
+## Objective-C 版本
+
+独立 OC 工程位于 [`OC/PushWithP8.xcodeproj`](OC/PushWithP8.xcodeproj)，保留原界面和推送流程。编译、使用和离线测试见 [`OC/README.md`](OC/README.md)。Swift 工程仍位于仓库根目录，两版可分别打开。
